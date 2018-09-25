@@ -32,4 +32,20 @@ class GithubClientIntegrationTest extends TestCase
         $githubClient->getCommitInformation("fahani", "colvin", "");
     }
 
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function commitInformationReturnsExpectedData()
+    {
+        $client = new Client();
+        $resultPager = new ResultPager($client);
+        $githubClient = new GithubClient($client, $resultPager);
+
+        $commitInformation = $githubClient->getCommitInformation("fahani", "colvin", "90ec51b93624438947df6704ecb8982d38454ef4");
+
+        $this->assertSame($commitInformation["sha"], "90ec51b93624438947df6704ecb8982d38454ef4");
+        $this->assertSame($commitInformation["files"][0]["filename"], "another_folder/FileSix.php");
+    }
+
 }
