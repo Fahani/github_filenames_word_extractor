@@ -28,4 +28,20 @@ class GithubClientTest extends TestCase
             ->shouldBeCalledTimes(1);
         new GithubClient($clientMock->reveal(), $resultPagerMock->reveal());
     }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function commitInformationThrowsExceptionOnEmptySHA()
+    {
+        $clientMock = $this->prophesize(Client::class);
+        $resultPagerMock = $this->prophesize(ResultPager::class);
+
+        $this->expectException("Exception");
+
+        $githubClient = new GithubClient($clientMock->reveal(), $resultPagerMock->reveal());
+
+        $githubClient->getCommitInformation("user", "repo", "");
+    }
 }
