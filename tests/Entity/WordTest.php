@@ -9,6 +9,7 @@
 namespace App\Tests\Entity;
 
 
+use App\Entity\Word;
 use PHPUnit\Framework\TestCase;
 
 class WordTest extends TestCase
