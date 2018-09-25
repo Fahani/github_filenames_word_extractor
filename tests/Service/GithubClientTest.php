@@ -72,4 +72,40 @@ class GithubClientTest extends TestCase
         $this->assertSame("90ec51b93624438947df6704ecb8982d38454ef4", $commits[0]["sha"]);
         $this->assertSame("78a3b378fc5d7d2d4aebf6f0487bc0cbaf9c63ff", $commits[1]["sha"]);
     }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function commitInformationReturnsExpectedData()
+    {
+        $commitsMock    = $this->prophesize(Commits::class);
+        $repoMock       = $this->prophesize(Repo::class);
+
+        $repoMock->commits()
+            ->willReturn($commitsMock);
+
+        $this->clientMock->authenticate(getenv('GITHUB_SECRET'), null, getenv('GITHUB_AUTH_METHOD'))
+            ->shouldBeCalledTimes(1);
+
+        $this->clientMock->api("repo")
+            ->shouldBeCalledTimes(1)
+            ->willReturn($repoMock);
+
+        $commitsMock->show("fahani", "colvin", "90ec51b93624438947df6704ecb8982d38454ef4")
+            ->willReturn([
+                "sha" => "90ec51b93624438947df6704ecb8982d38454ef4",
+                "files" => [
+                    "filename" => "another_folder/FileSix.php",
+                ]
+            ]);
+
+
+        $githubClient = new GithubClient($this->clientMock->reveal(), $this->resultPagerMock->reveal());
+
+        $commitInformation = $githubClient->getCommitInformation("fahani", "colvin", "90ec51b93624438947df6704ecb8982d38454ef4");
+
+        $this->assertSame($commitInformation["sha"], "90ec51b93624438947df6704ecb8982d38454ef4");
+        $this->assertSame($commitInformation["files"]["filename"], "another_folder/FileSix.php");
+    }
 }
