@@ -53,6 +53,9 @@ class GithubClient
      */
     public function getCommitInformation(string $user, string $repository, string $sha): array
     {
+        if ( empty( $sha ) )
+            throw new \Exception("SHA is empty");
+
         $commitInfo = $this->githubClient->api('repo')->commits()->show($user, $repository, $sha);
 
         return $commitInfo;
