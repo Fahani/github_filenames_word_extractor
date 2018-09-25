@@ -36,4 +36,5 @@ jobs:
       - run: mkdir var/data
 
       # run tests!
-      - run: ./vendor/bin/simple-phpunit
+
+      - run: ./bin/phpunit
