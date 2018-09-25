@@ -52,4 +52,14 @@ class Word
     {
         return $this->frequency;
     }
+
+    /**
+     * Increments the frequency of the Word in one unit and return itself.
+     * @return Word
+     */
+    public function incrementFrequencyByOne(): self
+    {
+        $this->frequency++;
+        return $this;
+    }
 }
