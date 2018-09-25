@@ -9,6 +9,7 @@
 namespace App\Tests\Helper;
 
 
+use App\Helper\FilenameWordSplitter;
 use PHPUnit\Framework\TestCase;
 
 class FilenameWordSplitterTest extends TestCase
