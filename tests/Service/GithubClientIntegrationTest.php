@@ -17,19 +17,25 @@ use PHPUnit\Framework\TestCase;
 class GithubClientIntegrationTest extends TestCase
 {
 
+    private $githubClient;
+
+
+    protected function setUp()
+    {
+        $client = new Client();
+        $resultPager = new ResultPager($client);
+        $this->githubClient = new GithubClient($client, $resultPager);
+    }
+
     /**
      * @test
      * @throws \Exception
      */
     public function commitInformationThrowsExceptionOnEmptySHA()
     {
-        $client = new Client();
-        $resultPager = new ResultPager($client);
-        $githubClient = new GithubClient($client, $resultPager);
-
         $this->expectException("Exception");
 
-        $githubClient->getCommitInformation("fahani", "colvin", "");
+        $this->githubClient->getCommitInformation("fahani", "colvin", "");
     }
 
     /**
@@ -38,14 +44,11 @@ class GithubClientIntegrationTest extends TestCase
      */
     public function commitInformationReturnsExpectedData()
     {
-        $client = new Client();
-        $resultPager = new ResultPager($client);
-        $githubClient = new GithubClient($client, $resultPager);
-
-        $commitInformation = $githubClient->getCommitInformation("fahani", "colvin", "90ec51b93624438947df6704ecb8982d38454ef4");
+        $commitInformation = $this->githubClient->getCommitInformation("fahani", "colvin", "90ec51b93624438947df6704ecb8982d38454ef4");
 
         $this->assertSame($commitInformation["sha"], "90ec51b93624438947df6704ecb8982d38454ef4");
         $this->assertSame($commitInformation["files"][0]["filename"], "another_folder/FileSix.php");
     }
+
 
 }
