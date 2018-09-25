@@ -14,16 +14,21 @@ use PHPUnit\Framework\TestCase;
 
 class WordTest extends TestCase
 {
+    private $word;
+
+    protected function setUp()
+    {
+        $this->word = new Word("Main", 10);;
+    }
+
 
     /**
      * @test
      */
     public function checkNameAndFrequencyPersist()
     {
-        $word = new Word("Main", 10);
-
-        $this->assertSame(10, $word->getFrequency());
-        $this->assertSame("Main", $word->getName());
+        $this->assertSame(10, $this->word->getFrequency());
+        $this->assertSame("Main", $this->word->getName());
     }
 
     /**
@@ -31,13 +36,11 @@ class WordTest extends TestCase
      */
     public function incrementFrequencyAndNamePersists()
     {
-        $word = new Word("Main", 10);
+        $this->assertSame(10, $this->word->getFrequency());
 
-        $this->assertSame(10, $word->getFrequency());
+        $this->word = $this->word->incrementFrequencyByOne();
 
-        $word = $word->incrementFrequencyByOne();
-
-        $this->assertSame(11, $word->getFrequency());
-        $this->assertSame("Main", $word->getName());
+        $this->assertSame(11, $this->word->getFrequency());
+        $this->assertSame("Main", $this->word->getName());
     }
 }
