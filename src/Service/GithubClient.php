@@ -31,8 +31,8 @@ class GithubClient
 
     /**
      * This function allows us to get all the commits from a repository.
-     * @param string $user
-     * @param string $repository
+     * @param string $user Username of the user in github
+     * @param string $repository Repository from which we want to get the commits
      * @return array with all the commits in the repository
      */
     public function getAllCommitsInRepository(string $user, string $repository): array
@@ -43,4 +43,21 @@ class GithubClient
         return $commits;
     }
 
+    /**
+     * This function returns the information of a commit, that info contains the information about the files in that commit
+     * @param string $user Username of the user in Github
+     * @param string $repository Repository from we want to get the filenames
+     * @param string $sha SHA of the commit
+     * @return array an array with the commit information
+     * @throws \Exception
+     */
+    public function getCommitInformation(string $user, string $repository, string $sha): array
+    {
+        if ( empty( $sha ) )
+            throw new \Exception("SHA is empty");
+
+        $commitInfo = $this->githubClient->api('repo')->commits()->show($user, $repository, $sha);
+
+        return $commitInfo;
+    }
 }
