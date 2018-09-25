@@ -18,17 +18,24 @@ use PHPUnit\Framework\TestCase;
 
 class GithubClientTest extends TestCase
 {
+
+    private $clientMock;
+    private $resultPagerMock;
+
+    protected function setUp()
+    {
+        $this->clientMock = $this->prophesize(Client::class);
+        $this->resultPagerMock = $this->prophesize(ResultPager::class);
+    }
+
     /**
      * @test
      */
     public function shouldCallToAuthenticate()
     {
-        $clientMock = $this->prophesize(Client::class);
-        $resultPagerMock = $this->prophesize(ResultPager::class);
-
-        $clientMock->authenticate(getenv('GITHUB_SECRET'), null, getenv('GITHUB_AUTH_METHOD'))
+        $this->clientMock->authenticate(getenv('GITHUB_SECRET'), null, getenv('GITHUB_AUTH_METHOD'))
             ->shouldBeCalledTimes(1);
-        new GithubClient($clientMock->reveal(), $resultPagerMock->reveal());
+        new GithubClient($this->clientMock->reveal(), $this->resultPagerMock->reveal());
     }
 
     /**
@@ -37,29 +44,27 @@ class GithubClientTest extends TestCase
      */
     public function returnsAllTheCommitsInRepository()
     {
-        $clientMock             = $this->prophesize(Client::class);
         $commitsApiClient       = $this->prophesize(Commits::class);
         $repositoriesApiClient  = $this->prophesize(Repo::class);
-        $resultPagerMock        = $this->prophesize(ResultPager::class);
 
-        $clientMock->authenticate(getenv('GITHUB_SECRET'), null, getenv('GITHUB_AUTH_METHOD'))
+        $this->clientMock->authenticate(getenv('GITHUB_SECRET'), null, getenv('GITHUB_AUTH_METHOD'))
             ->shouldBeCalledTimes(1);
 
-        $clientMock->repo()
+        $this->clientMock->repo()
             ->shouldBeCalledTimes(1)
             ->willReturn($repositoriesApiClient);
 
         $repositoriesApiClient->commits()
             ->willReturn($commitsApiClient);
 
-        $resultPagerMock->fetchAll($commitsApiClient, "all", array("fahani", "colvin", ['sha' => 'master']))
+        $this->resultPagerMock->fetchAll($commitsApiClient, "all", array("fahani", "colvin", ['sha' => 'master']))
             ->shouldBeCalledTimes(1)
             ->willReturn([
                 ["sha" => "90ec51b93624438947df6704ecb8982d38454ef4"],
                 ["sha" => "78a3b378fc5d7d2d4aebf6f0487bc0cbaf9c63ff"],
             ]);
 
-        $githubClient = new GithubClient($clientMock->reveal(), $resultPagerMock->reveal());
+        $githubClient = new GithubClient($this->clientMock->reveal(), $this->resultPagerMock->reveal());
 
         $commits = $githubClient->getAllCommitsInRepository("fahani", "colvin");
 
