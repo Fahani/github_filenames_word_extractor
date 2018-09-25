@@ -10,6 +10,8 @@ namespace App\Tests\Service;
 
 
 use App\Service\GithubClient;
+use Github\Api\Repo;
+use Github\Api\Repository\Commits;
 use Github\Client;
 use Github\ResultPager;
 use PHPUnit\Framework\TestCase;

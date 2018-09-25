@@ -28,4 +28,19 @@ class GithubClient
         $this->githubClient->authenticate(getenv('GITHUB_SECRET'), null, getenv('GITHUB_AUTH_METHOD'));
         $this->resultPager = $resultPager;
     }
+
+    /**
+     * This function allows us to get all the commits from a repository.
+     * @param string $user
+     * @param string $repository
+     * @return array with all the commits in the repository
+     */
+    public function getAllCommitsInRepository(string $user, string $repository): array
+    {
+        $commitsApi = $this->githubClient->repo()->commits();
+        $parameters = array($user, $repository, ['sha' => 'master']);
+        $commits = $this->resultPager->fetchAll($commitsApi, 'all', $parameters);
+        return $commits;
+    }
+
 }
