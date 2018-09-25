@@ -25,4 +25,19 @@ class WordTest extends TestCase
         $this->assertSame(10, $word->getFrequency());
         $this->assertSame("Main", $word->getName());
     }
+
+    /**
+     * @test
+     */
+    public function incrementFrequencyAndNamePersists()
+    {
+        $word = new Word("Main", 10);
+
+        $this->assertSame(10, $word->getFrequency());
+
+        $word->incrementFrequencyByOne();
+
+        $this->assertSame(11, $word->getFrequency());
+        $this->assertSame("Main", $word->getName());
+    }
 }
