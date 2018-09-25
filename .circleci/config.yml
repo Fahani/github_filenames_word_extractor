@@ -37,10 +37,3 @@ jobs:
 
       # run tests!
       - run: ./vendor/bin/phpunit
-
-      - store_test_results:
-          path: ~/phpunit
-
-      - store_artifacts:
-          path: ~/phpunit
-
