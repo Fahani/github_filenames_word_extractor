@@ -9,6 +9,7 @@
 namespace App\Tests\Service;
 
 
+use App\Service\WordCounter;
 use PHPUnit\Framework\TestCase;
 
 class WordCounterTest extends TestCase
@@ -29,7 +30,7 @@ class WordCounterTest extends TestCase
         $wordCounter->addWord("File");
 
         $this->assertCount(1, $wordCounter->getWords());
-        $this->assertSame(1, $wordCounter->getWords()["File"]->getFrenquency());
+        $this->assertSame(1, $wordCounter->getWords()["File"]->getFrequency());
         $this->assertSame("File", $wordCounter->getWords()["File"]->getName());
 
         $wordCounter->addWord("File");
@@ -43,7 +44,7 @@ class WordCounterTest extends TestCase
         $this->assertCount(2, $wordCounter->getWords());
         $this->assertSame(2, $wordCounter->getWords()["File"]->getFrequency());
         $this->assertSame("File", $wordCounter->getWords()["File"]->getName());
-        $this->assertSame(1, $wordCounter->getWords()["Six"]->getFrenquency());
+        $this->assertSame(1, $wordCounter->getWords()["Six"]->getFrequency());
         $this->assertSame("Six", $wordCounter->getWords()["Six"]->getName());
     }
 }
