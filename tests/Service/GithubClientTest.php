@@ -108,4 +108,17 @@ class GithubClientTest extends TestCase
         $this->assertSame($commitInformation["sha"], "90ec51b93624438947df6704ecb8982d38454ef4");
         $this->assertSame($commitInformation["files"]["filename"], "another_folder/FileSix.php");
     }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function commitInformationThrowsExceptionOnEmptySHA()
+    {
+        $this->expectException("Exception");
+
+        $githubClient = new GithubClient($this->clientMock->reveal(), $this->resultPagerMock->reveal());
+
+        $githubClient->getCommitInformation("user", "repo", "");
+    }
 }
