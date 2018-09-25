@@ -9,6 +9,7 @@
 namespace App\Tests\Service;
 
 
+use App\Service\GithubClient;
 use Github\Client;
 use Github\ResultPager;
 use PHPUnit\Framework\TestCase;
