@@ -9,6 +9,7 @@
 namespace App\Tests\Helper;
 
 
+use App\Helper\GithubInformationExtractor;
 use PHPUnit\Framework\TestCase;
 
 class GithubInformationExtractorTest extends TestCase
