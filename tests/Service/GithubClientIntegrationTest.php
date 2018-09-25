@@ -50,5 +50,17 @@ class GithubClientIntegrationTest extends TestCase
         $this->assertSame($commitInformation["files"][0]["filename"], "another_folder/FileSix.php");
     }
 
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function returnsAllTheCommitsExpectedInRepository()
+    {
+        $commits = $this->githubClient->getAllCommitsInRepository("fahani", "colvin");
+
+        $this->assertCount(5, $commits);
+        $this->assertSame("90ec51b93624438947df6704ecb8982d38454ef4", $commits[0]["sha"]);
+        $this->assertSame("45d63f69227a4205184745198816d80c40710fe9", $commits[1]["sha"]);
+    }
 
 }
