@@ -17,9 +17,9 @@
         <!-- define your env variables for the test env here -->
 
         <!-- ###+ knplabs/github-api ### -->
-        <env name="GITHUB_AUTH_METHOD" value="http_password"/>
-        <env name="GITHUB_USERNAME" value="username"/>
-        <env name="GITHUB_SECRET" value="password_or_token"/>
+        <env name="GITHUB_AUTH_METHOD" value="http_token"/>
+        <env name="GITHUB_USERNAME" value="Fahani"/>
+        <env name="GITHUB_SECRET" value="4e8f9388b4657ef3305d4c509bb2db9a952a7ecd"/>
         <!-- ###- knplabs/github-api ### -->
     </php>
 
